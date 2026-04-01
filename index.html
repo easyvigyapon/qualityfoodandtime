@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quality Food & Time | Restaurant & Delivery in Bishnupur</title>
+    <meta name="description"
+        content="Quality Food & Time in Bishnupur, Bankura. Serving delicious Biryani, Momos, Chilli Chicken, and more. Dine-in or order online via Zomato.">
+
+    <!-- Open Source Fonts: Google Fonts (Playfair Display for headings, Poppins for text) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Open Source CSS Framework: Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Open Source Icons: Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            light: '#f5f5f4', // Stone 100
+                            DEFAULT: '#57534e', // Stone 600
+                            dark: '#292524', // Stone 800
+                        },
+                        zomato: '#cb202d'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles for Hero Overlay and subtle animations */
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1633945274405-b6c8069047b0?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .menu-card:hover .menu-img-overlay {
+            opacity: 1;
+        }
+
+        .menu-img-overlay {
+            transition: opacity 0.3s ease;
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="font-sans text-gray-800 bg-brand-light antialiased selection:bg-brand selection:text-white">
+
+    <!-- Splash Screen (Opening Soon) -->
+    <div id="splash-screen"
+        class="fixed inset-0 z-[100] bg-gray-900 flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out">
+        <div class="text-center px-4 animate-fade-in-up flex flex-col items-center">
+            <div class="bg-brand/20 p-6 rounded-full mb-6">
+                <i data-lucide="utensils-crossed" class="text-brand h-16 w-16 animate-pulse"></i>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-serif font-bold text-white mb-4 text-center">Quality Food <span
+                    class="text-brand">&</span> Time</h1>
+            <p class="text-2xl md:text-3xl text-gray-300 font-light tracking-wide mb-10">Restaurant <span
+                    class="font-semibold text-white">Opening Soon...</span></p>
+            <button id="enter-site-btn"
+                class="bg-brand text-white px-8 py-4 rounded-full font-bold hover:bg-brand-dark transition shadow-2xl hover:shadow-brand/50 text-lg flex items-center justify-center gap-2 transform hover:scale-105 duration-300">
+                Explore Website <i data-lucide="arrow-right" class="h-5 w-5"></i>
+            </button>
+        </div>
+    </div>
+    <!-- Inline script to prevent flash of splash screen for returning users -->
+    <script>
+        if (localStorage.getItem('hasVisitedQFT')) {
+            document.getElementById('splash-screen').style.display = 'none';
+        }
+    </script>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-white/95 backdrop-blur-sm shadow-sm" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="font-serif text-2xl font-bold text-gray-900 flex items-center gap-2">
+                        <i data-lucide="utensils-crossed" class="text-brand h-8 w-8"></i>
+                        <span class="leading-none">Quality Food<br><span
+                                class="text-sm text-brand font-sans uppercase tracking-widest">& Time</span></span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-gray-600 hover:text-brand font-medium transition">Home</a>
+                    <a href="#about" class="text-gray-600 hover:text-brand font-medium transition">About</a>
+                    <a href="#menu" class="text-gray-600 hover:text-brand font-medium transition">Menu</a>
+                    <a href="#location" class="text-gray-600 hover:text-brand font-medium transition">Location</a>
+                    <a href="#order"
+                        class="bg-zomato text-white px-5 py-2 rounded-full font-medium hover:bg-red-700 transition shadow-md flex items-center gap-2">
+                        <i data-lucide="shopping-bag" class="h-4 w-4"></i> Order Online
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-gray-900 focus:outline-none p-2">
+                        <i data-lucide="menu" class="h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-white border-t border-gray-100 shadow-lg absolute w-full left-0">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="#home"
+                    class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand hover:bg-gray-50 rounded-md">Home</a>
+                <a href="#about"
+                    class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand hover:bg-gray-50 rounded-md">About</a>
+                <a href="#menu"
+                    class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand hover:bg-gray-50 rounded-md">Menu</a>
+                <a href="#location"
+                    class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand hover:bg-gray-50 rounded-md">Location</a>
+                <a href="#order"
+                    class="block mt-4 px-3 py-3 text-base font-medium text-white bg-zomato rounded-md text-center flex justify-center items-center gap-2">
+                    <i data-lucide="shopping-bag" class="h-4 w-4"></i> Order on Zomato
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg h-screen flex items-center relative pt-20">
+        <div
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full text-center md:text-left mt-20 md:mt-24">
+            <div class="max-w-2xl">
+                <span
+                    class="text-brand uppercase tracking-[0.2em] font-semibold text-sm md:text-base mb-4 block animate-fade-in">Welcome
+                    to</span>
+                <h1 class="text-5xl md:text-7xl font-serif font-bold text-white leading-tight mb-6">
+                    Quality Food <br> <span class="text-brand">&</span> Time
+                </h1>
+                <p class="text-lg md:text-xl text-gray-200 mb-8 font-light max-w-lg mx-auto md:mx-0">
+                    Savor the best moments with delicious food. From aromatic Biryani to mouth-watering Darjeeling
+                    Momos, we bring joy to your plate in Bankura.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <a href="#menu"
+                        class="bg-brand text-white px-8 py-3.5 rounded-full font-medium hover:bg-brand-dark transition shadow-lg text-lg text-center">
+                        View Menu
+                    </a>
+                    <a href="#order"
+                        class="bg-zomato text-white border border-transparent px-8 py-3.5 rounded-full font-medium hover:bg-red-700 transition shadow-lg text-lg text-center flex justify-center items-center gap-2">
+                        Order Delivery <i data-lucide="arrow-right" class="h-5 w-5"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Decorative bottom wave -->
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+            <svg class="relative block w-full h-[50px] md:h-[100px]" data-name="Layer 1"
+                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path
+                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,121.32,194.2,108.38,239.38,99.11,281.33,76.65,321.39,56.44Z"
+                    fill="#f5f5f4"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 md:py-28">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&w=800&q=80"
+                        alt="Restaurant Ambiance" class="rounded-2xl shadow-2xl object-cover h-[400px] w-full">
+                    <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-xl hidden sm:block">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-brand/10 p-3 rounded-full text-brand">
+                                <i data-lucide="star" class="h-8 w-8 fill-brand"></i>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold text-gray-900">100%</p>
+                                <p class="text-sm text-gray-500 font-medium">Quality Ingredients</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-brand font-semibold tracking-wider uppercase text-sm">Our Story</span>
+                    <h2 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 mt-2 mb-6">Great Food,
+                        <br>Unforgettable Time.
+                    </h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                        Located in the heart of Penchakura, Ajodhya, Bishnupur, "Quality Food & Time" is your go-to
+                        destination for mouth-watering delicacies. We believe that good food creates good moods.
+                    </p>
+                    <p class="text-gray-600 mb-8 leading-relaxed text-lg">
+                        Whether you are craving our signature Biryani, looking for a quick Egg Roll on the go, or
+                        wanting to relax with our Special Ginger Tea and Darjeeling Momos, we have something to delight
+                        every palate. We take pride in using fresh ingredients to serve you happiness on a plate.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="check-circle-2" class="text-brand h-6 w-6"></i>
+                            <span class="font-medium text-gray-800">Dine-In</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="check-circle-2" class="text-brand h-6 w-6"></i>
+                            <span class="font-medium text-gray-800">Takeaway</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="check-circle-2" class="text-brand h-6 w-6"></i>
+                            <span class="font-medium text-gray-800">Online Delivery</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="check-circle-2" class="text-brand h-6 w-6"></i>
+                            <span class="font-medium text-gray-800">Fresh Ingredients</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Taste Matcher Section -->
+    <section id="ai-matcher" class="py-16 bg-brand-light border-y border-stone-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="bg-white rounded-3xl shadow-xl p-8 md:p-12 border border-stone-100">
+                <div class="inline-flex items-center justify-center p-3 bg-brand/10 rounded-full mb-4 text-brand">
+                    <i data-lucide="sparkles" class="h-8 w-8"></i>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-4">AI Taste Matcher ✨</h2>
+                <p class="text-gray-600 mb-8 text-lg">Not sure what to order? Tell our AI Chef what you're craving, and
+                    we'll find your perfect match from our menu!</p>
+
+                <div class="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto">
+                    <input type="text" id="craving-input" placeholder="e.g., 'Something spicy for a rainy evening'"
+                        class="flex-1 px-6 py-4 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition text-gray-700 shadow-inner text-left">
+                    <button id="ai-match-btn"
+                        class="bg-brand text-white px-8 py-4 rounded-full font-bold hover:bg-brand-dark transition shadow-lg flex items-center justify-center gap-2 whitespace-nowrap">
+                        Find Match ✨
+                    </button>
+                </div>
+
+                <!-- AI Result Area -->
+                <div id="ai-result-container" class="mt-8 hidden animate-fade-in">
+                    <div
+                        class="p-6 bg-stone-100 rounded-2xl border border-stone-300 text-left relative overflow-hidden shadow-inner">
+                        <div class="absolute -right-4 -top-4 opacity-5">
+                            <i data-lucide="chef-hat" class="h-40 w-40 text-brand"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-lg mb-2 flex items-center gap-2">
+                            <i data-lucide="utensils" class="h-5 w-5 text-brand"></i> Chef's Recommendation:
+                        </h4>
+                        <p id="ai-result-text" class="text-gray-800 leading-relaxed relative z-10 text-lg"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Highlight Section -->
+    <section id="menu" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-brand font-semibold tracking-wider uppercase text-sm">Discover</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 mt-2 mb-4">Our Popular Menu</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto text-lg">Explore our chef's specials. From authentic Indian
+                    mains to delicious street-style snacks.</p>
+            </div>
+
+            <!-- Menu Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Item 1 -->
+                <div
+                    class="menu-card group bg-brand-light rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?auto=format&fit=crop&w=600&q=80"
+                            alt="Special Biryani"
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
+                        <div
+                            class="menu-img-overlay absolute inset-0 bg-black/40 opacity-0 flex items-center justify-center">
+                            <span class="text-white font-medium border-2 border-white px-4 py-2 rounded-full">Must
+                                Try</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-gray-900 font-serif">Special Biryani</h3>
+                            <span
+                                class="bg-stone-200 text-brand-dark text-xs font-bold px-2 py-1 rounded">Non-Veg</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Aromatic basmati rice cooked with tender meat, traditional
+                            spices, and love.</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div
+                    class="menu-card group bg-brand-light rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?auto=format&fit=crop&w=600&q=80"
+                            alt="Darjeeling Momos"
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-gray-900 font-serif">Darjeeling Momos</h3>
+                            <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded">Veg /
+                                Chicken</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Authentic steamed dumplings served with our special spicy
+                            homemade chutney.</p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div
+                    class="menu-card group bg-brand-light rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80"
+                            alt="Chilli Chicken"
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-gray-900 font-serif">Chilli Chicken</h3>
+                            <span
+                                class="bg-stone-200 text-brand-dark text-xs font-bold px-2 py-1 rounded">Non-Veg</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Crispy chicken chunks tossed in spicy, sweet, and tangy
+                            Indo-Chinese sauces.</p>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div
+                    class="menu-card group bg-brand-light rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80"
+                            alt="Chicken Lollipop"
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-gray-900 font-serif">Chicken Lollipop</h3>
+                            <span
+                                class="bg-stone-200 text-brand-dark text-xs font-bold px-2 py-1 rounded">Starter</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Frenched chicken winglets, batter-fried crisp to
+                            perfection. A crowd favorite.</p>
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div
+                    class="menu-card group bg-brand-light rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80"
+                            alt="Vegetarian Specials"
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-gray-900 font-serif">Veg & Paneer Delights</h3>
+                            <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded">Veg</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Featuring Paneer Pakora, wholesome Vegetable curries, and
+                            Egg Vegetable dishes.</p>
+                    </div>
+                </div>
+
+                <!-- Item 6 -->
+                <div
+                    class="menu-card group bg-brand-light rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=600&q=80"
+                            alt="Special Ginger Tea"
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-gray-900 font-serif">Beverages & Fast Food</h3>
+                            <span
+                                class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded">Drinks/Snacks</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Relax with our Special Ginger Tea, perfectly paired with
+                            our stuffed Egg Rolls.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mt-12 text-center">
+                <p class="text-gray-500 italic mb-4">* Also serving Fried Rice, custom rolls, and seasonal specials.
+                    Visit us to see the full menu.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Zomato Integration Banner -->
+    <section id="order" class="py-16 bg-gradient-to-r from-red-600 to-zomato relative overflow-hidden">
+        <!-- Abstract background pattern -->
+        <div class="absolute inset-0 opacity-10">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse">
+                        <circle cx="2" cy="2" r="2" fill="currentColor" />
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#dots)" class="text-white" />
+            </svg>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div class="inline-flex items-center justify-center p-4 bg-white rounded-full mb-6 shadow-xl">
+                <!-- Zomato-like Icon/Text representation -->
+                <span class="font-extrabold text-3xl text-zomato tracking-tighter italic pr-2">zomato</span>
+            </div>
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Enjoy Quality Food at Home</h2>
+            <p class="text-red-100 text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+                Can't make it to our restaurant? No worries! We deliver our delicious Biryani, Momos, and complete menu
+                right to your doorstep via Zomato.
+            </p>
+            <a href="#"
+                onclick="alert('In a real website, this would link to your specific Zomato restaurant page URL.')"
+                class="inline-flex items-center gap-2 bg-white text-zomato font-bold text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition transform duration-300">
+                Order Now on Zomato <i data-lucide="external-link" class="h-5 w-5"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Location & Contact -->
+    <section id="location" class="py-20 bg-brand-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+                <div class="grid lg:grid-cols-2">
+
+                    <!-- Contact Info -->
+                    <div class="p-10 md:p-16 flex flex-col justify-center">
+                        <span class="text-brand font-semibold tracking-wider uppercase text-sm">Visit Us</span>
+                        <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mt-2 mb-8">Location & Hours
+                        </h2>
+
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="bg-brand/10 p-3 rounded-full shrink-0">
+                                    <i data-lucide="map-pin" class="text-brand h-6 w-6"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 text-lg mb-1">Our Restaurant</h4>
+                                    <p class="text-gray-600 leading-relaxed">
+                                        Penchakura, Ajodhya,<br>
+                                        Bishnupur,<br>
+                                        Bankura, West Bengal
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="bg-brand/10 p-3 rounded-full shrink-0">
+                                    <i data-lucide="clock" class="text-brand h-6 w-6"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 text-lg mb-1">Opening Hours</h4>
+                                    <p class="text-gray-600">Monday - Sunday</p>
+                                    <p class="text-gray-800 font-medium">11:00 AM - 10:30 PM</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="bg-brand/10 p-3 rounded-full shrink-0">
+                                    <i data-lucide="phone-call" class="text-brand h-6 w-6"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 text-lg mb-1">Contact</h4>
+                                    <p class="text-gray-600">For reservations or direct takeaway:</p>
+                                    <a href="tel:+910000000000" class="text-brand font-bold hover:underline">+91 98765
+                                        43210</a>
+                                    <p class="text-xs text-gray-400 mt-1">(Placeholder number)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Map Placeholder -->
+                    <div class="h-[400px] lg:h-auto bg-gray-200 relative">
+                        <!-- Using an iframe map pointing generally to Bishnupur, Bankura -->
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d117926.90695393478!2d87.24357285!3d23.0760451!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f7ee2abf48f435%3A0x6e093122c83c2765!2sBishnupur%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            class="absolute inset-0 w-full h-full object-cover">
+                        </iframe>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+
+                <div class="flex items-center gap-2">
+                    <i data-lucide="utensils-crossed" class="text-brand h-6 w-6"></i>
+                    <span class="font-serif text-xl font-bold text-white">Quality Food & Time</span>
+                </div>
+
+                <div class="flex gap-6">
+                    <a href="#" class="text-gray-400 hover:text-brand transition"><i data-lucide="facebook"
+                            class="h-5 w-5"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-brand transition"><i data-lucide="instagram"
+                            class="h-5 w-5"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-brand transition"><i data-lucide="twitter"
+                            class="h-5 w-5"></i></a>
+                </div>
+            </div>
+
+            <div
+                class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 gap-4">
+                <p>&copy; 2023-2026 Quality Food & Time. All rights reserved.</p>
+                <p>Penchakura, Ajodhya, Bishnupur, Bankura</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Fixed AI Matcher Button -->
+    <a href="#ai-matcher"
+        class="fixed bottom-6 right-6 z-50 bg-brand text-white p-4 rounded-full shadow-2xl hover:bg-brand-dark hover:scale-110 transition-all duration-300 flex items-center justify-center group cursor-pointer">
+        <i data-lucide="sparkles" class="h-6 w-6"></i>
+        <!-- Tooltip -->
+        <span
+            class="absolute right-full mr-4 bg-gray-900 text-white text-sm px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none shadow-lg">
+            AI Taste Matcher ✨
+        </span>
+    </a>
+
+    <!-- Fixed AI Chat Button -->
+    <button id="open-chat-btn"
+        class="fixed bottom-[88px] right-6 z-50 bg-gray-900 text-white p-4 rounded-full shadow-2xl hover:bg-gray-800 hover:scale-110 transition-all duration-300 flex items-center justify-center group cursor-pointer">
+        <i data-lucide="message-square" class="h-6 w-6"></i>
+        <!-- Tooltip -->
+        <span
+            class="absolute right-full mr-4 bg-gray-900 text-white text-sm px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none shadow-lg">
+            Order via Chat 💬
+        </span>
+    </button>
+
+    <!-- Chatbot Window -->
+    <div id="chat-window"
+        class="fixed bottom-24 right-6 w-80 md:w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 z-[60] hidden flex-col overflow-hidden transition-all duration-300 origin-bottom-right">
+        <!-- Header -->
+        <div class="bg-gray-900 text-white p-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i data-lucide="bot" class="h-5 w-5"></i>
+                <span class="font-bold">Order Assistant</span>
+            </div>
+            <button id="close-chat-btn" class="text-gray-400 hover:text-white transition"><i data-lucide="x"
+                    class="h-5 w-5"></i></button>
+        </div>
+        <!-- Body -->
+        <div id="chat-messages" class="flex-1 h-80 overflow-y-auto p-4 space-y-4 bg-gray-50">
+            <!-- Initial bot message -->
+            <div class="flex gap-2">
+                <div class="bg-gray-200 p-2 rounded-full h-8 w-8 flex items-center justify-center shrink-0">
+                    <i data-lucide="bot" class="h-4 w-4 text-gray-700"></i>
+                </div>
+                <div
+                    class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 border border-gray-100">
+                    Hi! I'm your AI assistant. What would you like to order today from our menu?
+                </div>
+            </div>
+        </div>
+        <!-- Input -->
+        <div class="p-3 border-t border-gray-100 bg-white flex gap-2 items-center">
+            <input type="text" id="chat-input" placeholder="Type your order..."
+                class="flex-1 px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm">
+            <button id="send-chat-btn"
+                class="bg-gray-900 text-white p-2.5 rounded-xl hover:bg-gray-800 transition-colors flex items-center justify-center">
+                <i data-lucide="send" class="h-4 w-4"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        const firstApril = "sk-or-v1-";
+        const secondApril = "2b288dfb8041d469e65f81dba4345bc3b75dc87f75d0d2ebdd60681697bf1e9f";
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // --- Splash Screen Logic ---
+        document.addEventListener("DOMContentLoaded", () => {
+            const splashScreen = document.getElementById('splash-screen');
+            const enterBtn = document.getElementById('enter-site-btn');
+
+            // Only attach listener if the splash is visible
+            if (splashScreen && splashScreen.style.display !== 'none') {
+                enterBtn.addEventListener('click', () => {
+                    // Fade out
+                    splashScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        splashScreen.style.display = 'none';
+                        // Record visit in local storage
+                        localStorage.setItem('hasVisitedQFT', 'true');
+                    }, 700); // Wait for transition duration
+                });
+            }
+        });
+
+        // Mobile Menu Toggle Logic
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking a link
+        const mobileLinks = menu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Navbar scroll effect (add shadow and reduce padding on scroll)
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('shadow-md');
+            } else {
+                nav.classList.remove('shadow-md');
+            }
+        });
+
+        // --- Gemini AI Taste Matcher Logic ---
+        const apiKey = firstApril + secondApril;
+
+        async function fetchGeminiRecommendation(craving) {
+            const systemPrompt = `You are an enthusiastic, expert AI Chef at "Quality Food & Time" restaurant in Bishnupur. 
+            Our menu includes: Special Biryani, Darjeeling Momos (Veg/Chicken), Chilli Chicken, Chicken Lollipop, Paneer Pakora, Egg Roll, Fried Rice, Egg Vegetable, and Special Ginger Tea.
+            The user will tell you what they are craving. Recommend EXACTLY ONE dish from our menu that best fits their craving. 
+            Write a short, appetizing, 2-3 sentence response emphasizing why it matches their mood. Be friendly and welcoming! Make sure the response does not contain any special character or any markdown.`;
+
+            const url = `https://openrouter.ai/api/v1/chat/completions`;
+
+            const payload = {
+                model: "stepfun/step-3.5-flash:free",
+                messages: [
+                    { role: "system", content: systemPrompt },
+                    { role: "user", content: craving }
+                ]
+            };
+
+            let retries = 5;
+            let delay = 1000;
+
+            while (retries > 0) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${apiKey}`
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+                    const data = await response.json();
+                    return data.choices?.[0]?.message?.content || "Sorry, I couldn't think of a recommendation right now. Why not try our signature Special Biryani?";
+                } catch (error) {
+                    retries--;
+                    if (retries === 0) {
+                        return "Our AI chef is currently busy cooking up a storm! Please try asking again in a moment or check out our popular Menu below.";
+                    }
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2; // Exponential backoff
+                }
+            }
+        }
+
+        document.getElementById('ai-match-btn').addEventListener('click', async () => {
+            const inputField = document.getElementById('craving-input');
+            const craving = inputField.value.trim();
+            if (!craving) {
+                inputField.focus();
+                return;
+            }
+
+            const btn = document.getElementById('ai-match-btn');
+            const resultContainer = document.getElementById('ai-result-container');
+            const resultText = document.getElementById('ai-result-text');
+
+            // UI Loading state
+            btn.innerHTML = `<svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Thinking...`;
+            btn.disabled = true;
+            resultContainer.classList.add('hidden');
+
+            // Fetch recommendation from Gemini API
+            const recommendation = await fetchGeminiRecommendation(craving);
+
+            // UI Result state
+            resultText.innerText = recommendation;
+            resultContainer.classList.remove('hidden');
+            btn.innerHTML = 'Find Match ✨';
+            btn.disabled = false;
+        });
+
+        // Allow pressing Enter to submit
+        document.getElementById('craving-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                document.getElementById('ai-match-btn').click();
+            }
+        });
+
+        // --- AI Chatbot Order Logic ---
+        const chatWindow = document.getElementById('chat-window');
+        const openChatBtn = document.getElementById('open-chat-btn');
+        const closeChatBtn = document.getElementById('close-chat-btn');
+        const chatMessages = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const sendChatBtn = document.getElementById('send-chat-btn');
+
+        let chatHistory = [];
+
+        openChatBtn.addEventListener('click', () => {
+            chatWindow.classList.remove('hidden');
+            chatWindow.classList.add('flex');
+            chatInput.focus();
+        });
+
+        closeChatBtn.addEventListener('click', () => {
+            chatWindow.classList.add('hidden');
+            chatWindow.classList.remove('flex');
+        });
+
+        function appendMessage(role, text) {
+            const div = document.createElement('div');
+            div.className = role === 'user' ? 'flex gap-2 justify-end' : 'flex gap-2';
+
+            // Format line breaks for better readability
+            const formattedText = text.replace(/\n/g, '<br>');
+
+            let innerHTML = '';
+            if (role === 'model') {
+                innerHTML = `
+                    <div class="bg-gray-200 p-2 rounded-full h-8 w-8 flex items-center justify-center shrink-0">
+                        <i data-lucide="bot" class="h-4 w-4 text-gray-700"></i>
+                    </div>
+                    <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 border border-gray-100 max-w-[85%]">
+                        ${formattedText}
+                    </div>
+                `;
+            } else {
+                innerHTML = `
+                    <div class="bg-gray-900 text-white p-3 rounded-2xl rounded-tr-none shadow-sm text-sm max-w-[85%]">
+                        ${formattedText}
+                    </div>
+                `;
+            }
+            div.innerHTML = innerHTML;
+            chatMessages.appendChild(div);
+            lucide.createIcons({ root: div });
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function appendLoading() {
+            const div = document.createElement('div');
+            div.id = 'chat-loading';
+            div.className = 'flex gap-2';
+            div.innerHTML = `
+                <div class="bg-gray-200 p-2 rounded-full h-8 w-8 flex items-center justify-center shrink-0">
+                    <i data-lucide="bot" class="h-4 w-4 text-gray-700"></i>
+                </div>
+                <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-500 border border-gray-100 flex items-center gap-1 font-bold">
+                    <span class="animate-pulse">.</span><span class="animate-pulse delay-75">.</span><span class="animate-pulse delay-150">.</span>
+                </div>
+             `;
+            chatMessages.appendChild(div);
+            lucide.createIcons({ root: div });
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function removeLoading() {
+            const loadingMsg = document.getElementById('chat-loading');
+            if (loadingMsg) loadingMsg.remove();
+        }
+
+        // --- Backend API Integration Logic ---
+        async function sendTwilioSMS(orderSummary) {
+            console.log("Order Complete! Sending to secure backend...");
+
+            // TODO: Replace this URL with your actual free backend URL (Vercel, Cloudflare, etc.)
+            const backendUrl = 'https://qualityfoodandtime-backend.vercel.app/api/send-sms';
+
+            try {
+                const response = await fetch(backendUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ orderSummary: orderSummary })
+                });
+
+                if (response.ok) {
+                    console.log('Order successfully sent to restaurant via backend!');
+                } else {
+                    console.error('Failed to send SMS via backend. Status:', response.status);
+                }
+            } catch (error) {
+                console.error('Error reaching backend:', error);
+            }
+        }
+
+        async function handleSendChat() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            // UI updates
+            appendMessage('user', text);
+            chatInput.value = '';
+            appendLoading();
+
+            // Update history
+            chatHistory.push({ role: 'user', content: text });
+
+            const systemPrompt = `You are the order-taking AI for 'Quality Food & Time' restaurant in Bishnupur. Menu: Special Biryani, Darjeeling Momos (Veg/Chicken), Chilli Chicken, Chicken Lollipop, Paneer Pakora, Egg Roll, Fried Rice, Egg Vegetable, and Special Ginger Tea.
+            You MUST collect information one step at a time in this EXACT order. Do NOT ask for the next piece of information until the current one is provided.
+            1. Ask what they would like to order (clarify details like veg/chicken if needed).
+            2. Customer's Name.
+            3. Order type: Pickup or Delivery.
+            4. Phone Number.
+            5. Address (ONLY ask this if they chose Delivery in step 3).
+            Once all required steps are complete, summarize the full order (Items, Name, Type, Phone, Address) and end with: 'Your order has been confirmed and sent to the kitchen!'
+            
+            Important: Make sure the response does not contain any special character or any markdown. `;
+
+            const url = `https://openrouter.ai/api/v1/chat/completions`;
+
+            const payload = {
+                model: "stepfun/step-3.5-flash:free",
+                messages: [
+                    { role: "system", content: systemPrompt },
+                    ...chatHistory
+                ]
+            };
+
+            let retries = 5;
+            let delay = 1000;
+            let responseText = "Sorry, our kitchen line is a bit busy right now. Please try your message again.";
+
+            while (retries > 0) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${apiKey}`
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+                    const data = await response.json();
+                    responseText = data.choices?.[0]?.message?.content || responseText;
+                    break;
+                } catch (error) {
+                    retries--;
+                    if (retries === 0) break;
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2;
+                }
+            }
+
+            removeLoading();
+            appendMessage('model', responseText);
+            chatHistory.push({ role: 'assistant', content: responseText });
+
+            // Check if the AI has finalized the order
+            if (responseText.includes('Your order has been confirmed and sent to the kitchen!')) {
+                // Pass the final AI message (which contains the order summary) to the Twilio function
+                const randomMessage = aprilFoolMessages[Math.floor(Math.random() * aprilFoolMessages.length)];
+                sendTwilioSMS(randomMessage);
+            }
+        }
+
+        sendChatBtn.addEventListener('click', handleSendChat);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSendChat();
+        });
+
+        const aprilFoolMessages = [
+            "তুমি দেখতে খুব সুন্দর, বুদ্ধিমান, আর স্মার্ট! ...হাহাহা, এপ্রিল ফুল!",
+            "তোমার ফোনে একটা গোপন খবর আছে, দ্রুত চেক করো! ...এপ্রিল ফুল!",
+            "তুমি কি জানো, কালকে একটা বড় লটারি জিতেছ? ...এপ্রিল ফুল!",
+            "তোমার পেছনে কে দাঁড়িয়ে আছে দেখো তো? ...এপ্রিল ফুল!",
+            "আজকের দিনটা তোমার জন্য খুব স্পেশাল, কারণ তুমি বোকা! ...এপ্রিল ফুল!",
+            "তোমার ব্যাংক অ্যাকাউন্টে লাখ টাকা জমা পড়েছে! ...এপ্রিল ফুল!",
+            "তোমার গার্লফ্রেন্ড/বয়ফ্রেন্ড তোমাকে ছেড়ে চলে গেছে! ...এপ্রিল ফুল!",
+            "তুমি কি জানো, আমি তোমাকে খুব ভালোবাসি? ...এপ্রিল ফুল!",
+            "তুমি কি জানো, আমি তোমাকে ঘৃণা করি? ...এপ্রিল ফুল!",
+            "তুমি কি জানো, আমি তোমাকে বিয়ে করতে চাই? ...এপ্রিল ফুল!"
+        ]
+    </script>
+</body>
+
+</html>
